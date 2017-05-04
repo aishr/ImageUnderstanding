@@ -48,7 +48,7 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
 detectColour("box.jpg", 765, 1)
 
 '''
-Red: - b8384f
+Red: 40-00-00 : ff-00-00
 Pink: b83850 - 
 '''
         
