@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from collections import Counter
 from colour import hex2web
+import matplotlib
 
 
 def detectColour(imageName, backgroundColourSum, numOfColours):
@@ -23,17 +24,32 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
             else:
                 hex_num = hex_num + hex(colour_list[i][j])
         hex_values.append(hex_num)
-        
+    a = dict(matplotlib.colors.cnames.items())
+    for k in list(a):
+        if a[k] != k:
+            a[a[k]] = k
+            del a[k]
+    hex_dict = a
     blank_image = np.zeros((100,(numOfColours*50),3), np.uint8)
     x = Counter(hex_values).most_common(numOfColours)
     for i in range(numOfColours):
         colour = [int(x[i][0][2:4],16), int(x[i][0][4:6],16), int(x[i][0][6:8],16)]
         blank_image[:,(i*50):((i+1)*50)-1] = tuple(colour)
+        RGB = int(x[i][0][:2]+x[i][0][6:8]+x[i][0][4:6]+x[i][0][2:4],16)
+        print(RGB)
 
     cv2.imshow("image", image)
-    cv2.imshow("test", blank_image) 
+    cv2.imshow("test", blank_image)
+
+
+    
     
 
-detectColour("box.jpg", 765, 20)
+detectColour("box.jpg", 765, 1)
+
+'''
+Red: - b8384f
+Pink: b83850 - 
+'''
         
         
