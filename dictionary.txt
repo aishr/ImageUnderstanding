@@ -206,7 +206,7 @@ ffcc00:YELLOW
 ffcc33:YELLOW
 ffcc66:YELLOW
 ffcc99:ORANGE
-ffcccc:WHITE
+ffcccc:PINK
 ffccff:PURPLE
 ffff00:YELLOW
 ffff33:YELLOW

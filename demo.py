@@ -3,6 +3,8 @@ import numpy as np
 from collections import Counter
 from colour import hex2web
 import matplotlib
+
+#-----------------------------Begin Helper Functions----------------------------
 def makeDictionary():
     fd = open("dictionary.txt")
     lst = fd.readlines()
@@ -18,23 +20,23 @@ def webSafeColour(num):
     num = int(num,16)
     num = 51 * ((num + 25)//51)
     num = hex(num)[2:]
-    if len(num) != 2:
-        num = '0' + num
     return num
-def findTopColour(imageName, colourCode):
-    image = cv2.imread(imageName)
+#-------------------------------End Helper Functions----------------------------
+
+#-------------------------------Begin Main Function-----------------------------
     
-def detectColour(imageName, backgroundColourSum, numOfColours):
+def detectColour(imageName, numOfColours):
     dic = makeDictionary()
     image = cv2.imread(imageName)
     #gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     colour_list = []
     colourRange = {}
+    backgroundColourSum = sum(image[0][0])
 
     for i in range(len(image)):
         for j in range(len(image[i])):
             num_sum = sum(image[i][j])
-            if num_sum <= backgroundColourSum - 60:
+            if num_sum <= abs(backgroundColourSum - 60):
                 colour_list.append(image[i][j])
 ##            else:
 ##                image[i][j] = [0,0,0]
@@ -72,7 +74,7 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
         B = webSafeColour(x[i][0][2:4])
 ##        print(B)
 ##        print(x[i][0][2:4])
-##        print(str(R) + " " + str(G) + " " + str(B))
+        print(str(R) + " " + str(G) + " " + str(B))
         temp_key = R+G+B
 ##        print(temp_key)
         print("Colour " + str(i+1) + ": " + dic[temp_key] + " Frequency: " + str(x[i][1]))
@@ -96,8 +98,11 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     cv2.imshow(final_colour, image)
     cv2.imshow("palette", blank_image)
     print(colourRange)
-    
-detectColour("scarf7.jpg", 765, 20)
+
+#---------------------------------End Main Function-----------------------------
+
+if __name__ == '__main__':
+    detectColour("book2.jpg", 10)
 
 '''
     if R > G:
