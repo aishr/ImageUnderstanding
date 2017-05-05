@@ -24,6 +24,8 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
             num_sum = sum(image[i][j])
             if num_sum <= backgroundColourSum - 60:
                 colour_list.append(image[i][j])
+            else:
+                image[i][j] = [0,0,0]
     hex_values = []
     for i in range(len(colour_list)):
         hex_num = ''
@@ -44,13 +46,20 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     for i in range(numOfColours):
         colour = [int(x[i][0][2:4],16), int(x[i][0][4:6],16), int(x[i][0][6:8],16)]
         blank_image[:,(i*50):((i+1)*50)-1] = tuple(colour)
-##    print(x[0][0][6:8] + " " + x[0][0][4:6] + " " + x[0][0][2:4])
     R = 51 * ((int(x[0][0][6:8], 16) + 25)//51)
     G = 51* ((int(x[0][0][4:6], 16) + 25)//51)
     B = 51 * ((int(x[0][0][2:4], 16) + 25) //51)
     print(str(R) + " " + str(G) + " " + str(B))
+    print(hex(R)[2:]+ hex(G)[2:]+hex(B)[2:])
     key = hex(R)[2:]+ hex(G)[2:]+hex(B)[2:]
     final_colour = dic[key]
+
+    cv2.imshow(final_colour, image)
+    cv2.imshow("palette", blank_image)
+    
+detectColour("hat2.jpg", 765, 10)
+
+'''
 ##    if R > G:
 ##        if R > B:
 ##            if R > 128:
@@ -101,17 +110,6 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
 ##    if abs(R-G) <=20 and abs(G-B) <=20:
 ##        final_colour = "BLACK"
                 
-    cv2.imshow(final_colour, image)
-    cv2.imshow("palette", blank_image)
-    
-detectColour("box.jpg", 765, 10)
-
-'''
-Black: 00-00-00 : 
-Brown 05-00-00 : 7f-00-00
-Red: 80-00-00 : ff-00-00
-Green: 00-20-00 : 00-ff-00
-Pink: b83850 - 
 '''
         
         

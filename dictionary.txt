@@ -177,7 +177,7 @@ ccff33:YELLOW
 ccff66:YELLOW
 ccff99:YELLOW
 ccffcc:GREY
-ccffff:BLUE
+ccffff:GREEN
 ff0000:RED
 ff0033:RED
 ff0066:PINK
