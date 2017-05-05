@@ -3,9 +3,18 @@ import numpy as np
 from collections import Counter
 from colour import hex2web
 import matplotlib
-
-
+def makeDictionary():
+    fd = open("dictionary.txt")
+    lst = fd.readlines()
+    dic = {}
+    for i in range(len(lst)):
+        lst[i] = lst[i].strip().split(":")
+    for line in lst:
+        dic[line[0]] = line[1]
+    fd.close()
+    return dic
 def detectColour(imageName, backgroundColourSum, numOfColours):
+    dic = makeDictionary()
     image = cv2.imread(imageName)
     #gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     colour_list = []
@@ -35,65 +44,67 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     for i in range(numOfColours):
         colour = [int(x[i][0][2:4],16), int(x[i][0][4:6],16), int(x[i][0][6:8],16)]
         blank_image[:,(i*50):((i+1)*50)-1] = tuple(colour)
-    R = int(x[0][0][6:8], 16)
-    G = int(x[0][0][4:6], 16)
-    B = int(x[0][0][2:4], 16)
+##    print(x[0][0][6:8] + " " + x[0][0][4:6] + " " + x[0][0][2:4])
+    R = 51 * ((int(x[0][0][6:8], 16) + 25)//51)
+    G = 51* ((int(x[0][0][4:6], 16) + 25)//51)
+    B = 51 * ((int(x[0][0][2:4], 16) + 25) //51)
     print(str(R) + " " + str(G) + " " + str(B))
-    final_colour = "who knows"
-    if R > G:
-        if R > B:
-            if R > 128:
-                if abs(G-B) <= 30 and abs(R-G) <= 45:
-                    final_colour = "PINK"
-                else:
-                    final_colour = "RED"
-            elif R > 16:
-                if abs(G-B) <=10:
-                    final_colour = "BLACK"
-                else:
-                    final_colour = "BROWN"
-            else:
-                final_colour = "BLACK"
-        elif R == B:
-            if R >= 238:
-                final_colour = "PINK"
-            else:
-                final_colour = "PURPLE"
-        else:
-            if B <= 16:
-                final_colour = "BLACK"
-            else:
-                final_colour = "BLUE"
-    elif R == G:
-        if R >= 112:
-            final_colour = "YELLOW"
-        elif R >= 16:
-            final_colour = "BROWN"
-        else:
-            final_colour = "BLACK"
-    else:
-        if G > B:
-            if G > 16:
-                final_colour = "GREEN"
-            else:
-                final_colour = "BLACK"
-        elif G == B:
-            if G >= 16:
-                final_colour = "BLUE"
-            else:
-                final_colour = "BLACK"
-        else:
-            if B >= 16:
-                final_colour = "BLUE"
-            else:
-                final_colour = "BLACK"
-    if abs(R-G) <=20 and abs(G-B) <=20:
-        final_colour = "BLACK"
+    key = hex(R)[2:]+ hex(G)[2:]+hex(B)[2:]
+    final_colour = dic[key]
+##    if R > G:
+##        if R > B:
+##            if R > 128:
+##                if abs(G-B) <= 30 and abs(R-G) <= 45:
+##                    final_colour = "PINK"
+##                else:
+##                    final_colour = "RED"
+##            elif R > 16:
+##                if abs(G-B) <=10:
+##                    final_colour = "BLACK"
+##                else:
+##                    final_colour = "BROWN"
+##            else:
+##                final_colour = "BLACK"
+##        elif R == B:
+##            if R >= 238:
+##                final_colour = "PINK"
+##            else:
+##                final_colour = "PURPLE"
+##        else:
+##            if B <= 16:
+##                final_colour = "BLACK"
+##            else:
+##                final_colour = "BLUE"
+##    elif R == G:
+##        if R >= 112:
+##            final_colour = "YELLOW"
+##        elif R >= 16:
+##            final_colour = "BROWN"
+##        else:
+##            final_colour = "BLACK"
+##    else:
+##        if G > B:
+##            if G > 16:
+##                final_colour = "GREEN"
+##            else:
+##                final_colour = "BLACK"
+##        elif G == B:
+##            if G >= 16:
+##                final_colour = "BLUE"
+##            else:
+##                final_colour = "BLACK"
+##        else:
+##            if B >= 16:
+##                final_colour = "BLUE"
+##            else:
+##                final_colour = "BLACK"
+##    if abs(R-G) <=20 and abs(G-B) <=20:
+##        final_colour = "BLACK"
                 
     cv2.imshow(final_colour, image)
     cv2.imshow("palette", blank_image)
     
-detectColour("wallet2.jpg", 765, 10)
+detectColour("box.jpg", 765, 10)
 
 '''
 Black: 00-00-00 : 
