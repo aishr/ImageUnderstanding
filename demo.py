@@ -35,18 +35,18 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
             num_sum = sum(image[i][j])
             if num_sum <= backgroundColourSum - 60:
                 colour_list.append(image[i][j])
-##                image[i][j] = [0,0,0]
 ##            else:
 ##                image[i][j] = [0,0,0]
     hex_values = []
     for i in range(len(colour_list)):
-        hex_num = ''
+        hex_num = '0x'
         for j in range(len(colour_list[i])):
-            if j > 0:
-                hex_num = hex_num + hex(colour_list[i][j])[2:]
+            if len(hex(colour_list[i][j])) != 4:
+                hex_num = hex_num + "0" + hex(colour_list[i][j])[2:]
             else:
-                hex_num = hex_num + hex(colour_list[i][j])
+                hex_num = hex_num + hex(colour_list[i][j])[2:]
         hex_values.append(hex_num)
+    
     a = dict(matplotlib.colors.cnames.items())
     for k in list(a):
         if a[k] != k:
@@ -56,25 +56,25 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     blank_image = np.zeros((100,(numOfColours*50),3), np.uint8)
     cv2.imshow("image", image)
     x = Counter(hex_values).most_common(numOfColours)
+    print(x[0][0])
     for i in range(numOfColours):
         if len(x[i][0]) != 8:
             x[i] = (x[i][0] + ((8 - len(x[i][0]))*'0'),x[i][1])
-        print(x[i][0])
         colour = [int(x[i][0][2:4],16), int(x[i][0][4:6],16), int(x[i][0][6:8],16)]
         blank_image[:,(i*50):((i+1)*50)-1] = tuple(colour)
         R = webSafeColour(x[i][0][6:8])
 ##        print(R)
-        print(x[i][0][6:8])
+##        print(x[i][0][6:8])
         G = webSafeColour(x[i][0][4:6])
 ##        print(G)
-        print(x[i][0][4:6])
+##        print(x[i][0][4:6])
         B = webSafeColour(x[i][0][2:4])
 ##        print(B)
-        print(x[i][0][2:4])
+##        print(x[i][0][2:4])
 ##        print(str(R) + " " + str(G) + " " + str(B))
         temp_key = R+G+B
-        print(temp_key)
-        print("Colour " + str(i+1) + ": " + dic[temp_key] + " Frequency: " + str(x[i][1]))
+##        print(temp_key)
+##        print("Colour " + str(i+1) + ": " + dic[temp_key] + " Frequency: " + str(x[i][1]))
         
     R = webSafeColour(x[0][0][6:8])
 ##    print(R)
@@ -91,7 +91,7 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     cv2.imshow(final_colour, image)
     cv2.imshow("palette", blank_image)
     
-detectColour("mug2.jpg", 765, 10)
+detectColour("mug1.jpg", 765, 10)
 
 '''
     if R > G:
