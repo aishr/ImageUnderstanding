@@ -27,7 +27,7 @@ def findTopColour(imageName, colourCode):
 def detectColour(imageName, backgroundColourSum, numOfColours):
     dic = makeDictionary()
     image = cv2.imread(imageName)
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    #gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     colour_list = []
 
     for i in range(len(image)):
@@ -35,8 +35,8 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
             num_sum = sum(image[i][j])
             if num_sum <= backgroundColourSum - 60:
                 colour_list.append(image[i][j])
-##            else:
-##                image[i][j] = [0,0,0]
+            else:
+                image[i][j] = [0,0,0]
     hex_values = []
     for i in range(len(colour_list)):
         hex_num = '0x'
@@ -56,7 +56,7 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     blank_image = np.zeros((100,(numOfColours*50),3), np.uint8)
     cv2.imshow("image", image)
     x = Counter(hex_values).most_common(numOfColours)
-    print(x[0][0])
+    max_dif = x[0][1] - x[1][1]
     for i in range(numOfColours):
         if len(x[i][0]) != 8:
             x[i] = (x[i][0] + ((8 - len(x[i][0]))*'0'),x[i][1])
@@ -74,7 +74,7 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
 ##        print(str(R) + " " + str(G) + " " + str(B))
         temp_key = R+G+B
 ##        print(temp_key)
-##        print("Colour " + str(i+1) + ": " + dic[temp_key] + " Frequency: " + str(x[i][1]))
+        print("Colour " + str(i+1) + ": " + dic[temp_key] + " Frequency: " + str(x[i][1]))
         
     R = webSafeColour(x[0][0][6:8])
 ##    print(R)
@@ -91,7 +91,7 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     cv2.imshow(final_colour, image)
     cv2.imshow("palette", blank_image)
     
-detectColour("mug1.jpg", 765, 10)
+detectColour("earring3.jpg", 765, 20)
 
 '''
     if R > G:
