@@ -29,14 +29,15 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     image = cv2.imread(imageName)
     #gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     colour_list = []
+    colourRange = {}
 
     for i in range(len(image)):
         for j in range(len(image[i])):
             num_sum = sum(image[i][j])
             if num_sum <= backgroundColourSum - 60:
                 colour_list.append(image[i][j])
-            else:
-                image[i][j] = [0,0,0]
+##            else:
+##                image[i][j] = [0,0,0]
     hex_values = []
     for i in range(len(colour_list)):
         hex_num = '0x'
@@ -75,6 +76,10 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
         temp_key = R+G+B
 ##        print(temp_key)
         print("Colour " + str(i+1) + ": " + dic[temp_key] + " Frequency: " + str(x[i][1]))
+        if dic[temp_key] in colourRange.keys():
+            colourRange[dic[temp_key]] += x[i][1]
+        else:
+            colourRange[dic[temp_key]] = x[i][1]
         
     R = webSafeColour(x[0][0][6:8])
 ##    print(R)
@@ -90,8 +95,9 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
 
     cv2.imshow(final_colour, image)
     cv2.imshow("palette", blank_image)
+    print(colourRange)
     
-detectColour("earring3.jpg", 765, 20)
+detectColour("scarf7.jpg", 765, 20)
 
 '''
     if R > G:
