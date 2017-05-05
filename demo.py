@@ -7,7 +7,7 @@ import matplotlib
 
 def detectColour(imageName, backgroundColourSum, numOfColours):
     image = cv2.imread(imageName)
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    #gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     colour_list = []
 
     for i in range(len(image)):
@@ -35,20 +35,71 @@ def detectColour(imageName, backgroundColourSum, numOfColours):
     for i in range(numOfColours):
         colour = [int(x[i][0][2:4],16), int(x[i][0][4:6],16), int(x[i][0][6:8],16)]
         blank_image[:,(i*50):((i+1)*50)-1] = tuple(colour)
-        RGB = int(x[i][0][:2]+x[i][0][6:8]+x[i][0][4:6]+x[i][0][2:4],16)
-        print(RGB)
-
-    cv2.imshow("image", image)
-    cv2.imshow("test", blank_image)
-
-
+    R = int(x[0][0][6:8], 16)
+    G = int(x[0][0][4:6], 16)
+    B = int(x[0][0][2:4], 16)
+    print(str(R) + " " + str(G) + " " + str(B))
+    final_colour = "who knows"
+    if R > G:
+        if R > B:
+            if R > 128:
+                if abs(G-B) <= 30 and abs(R-G) <= 45:
+                    final_colour = "PINK"
+                else:
+                    final_colour = "RED"
+            elif R > 16:
+                if abs(G-B) <=10:
+                    final_colour = "BLACK"
+                else:
+                    final_colour = "BROWN"
+            else:
+                final_colour = "BLACK"
+        elif R == B:
+            if R >= 238:
+                final_colour = "PINK"
+            else:
+                final_colour = "PURPLE"
+        else:
+            if B <= 16:
+                final_colour = "BLACK"
+            else:
+                final_colour = "BLUE"
+    elif R == G:
+        if R >= 112:
+            final_colour = "YELLOW"
+        elif R >= 16:
+            final_colour = "BROWN"
+        else:
+            final_colour = "BLACK"
+    else:
+        if G > B:
+            if G > 16:
+                final_colour = "GREEN"
+            else:
+                final_colour = "BLACK"
+        elif G == B:
+            if G >= 16:
+                final_colour = "BLUE"
+            else:
+                final_colour = "BLACK"
+        else:
+            if B >= 16:
+                final_colour = "BLUE"
+            else:
+                final_colour = "BLACK"
+    if abs(R-G) <=20 and abs(G-B) <=20:
+        final_colour = "BLACK"
+                
+    cv2.imshow(final_colour, image)
+    cv2.imshow("palette", blank_image)
     
-    
-
-detectColour("box.jpg", 765, 1)
+detectColour("wallet2.jpg", 765, 10)
 
 '''
-Red: 40-00-00 : ff-00-00
+Black: 00-00-00 : 
+Brown 05-00-00 : 7f-00-00
+Red: 80-00-00 : ff-00-00
+Green: 00-20-00 : 00-ff-00
 Pink: b83850 - 
 '''
         
