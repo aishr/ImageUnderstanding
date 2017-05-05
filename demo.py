@@ -102,7 +102,7 @@ def detectColour(imageName, numOfColours):
 #---------------------------------End Main Function-----------------------------
 
 if __name__ == '__main__':
-    detectColour("book2.jpg", 10)
+    detectColour("images/india.jpg", 10)
 
 '''
     if R > G:
