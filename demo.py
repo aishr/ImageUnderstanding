@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from collections import Counter
-from colour import hex2web
 import matplotlib
 
 #-----------------------------Begin Helper Functions----------------------------
@@ -10,7 +9,7 @@ def makeDictionary():
     lst = fd.readlines()
     dic = {}
     for i in range(len(lst)):
-        lst[i] = lst[i].strip().split(":")
+        lst[i] = lst[i].strip().split(",")
     for line in lst:
         dic[line[0]] = line[1]
     fd.close()
@@ -20,6 +19,8 @@ def webSafeColour(num):
     num = int(num,16)
     num = 51 * ((num + 25)//51)
     num = hex(num)[2:]
+    if len(num) != 2:
+        num = '0' + num
     return num
 #-------------------------------End Helper Functions----------------------------
 
@@ -50,15 +51,10 @@ def detectColour(imageName, numOfColours):
                 hex_num = hex_num + hex(colour_list[i][j])[2:]
         hex_values.append(hex_num)
     
-    a = dict(matplotlib.colors.cnames.items())
-    for k in list(a):
-        if a[k] != k:
-            a[a[k]] = k
-            del a[k]
-    hex_dict = a
     blank_image = np.zeros((100,(numOfColours*50),3), np.uint8)
     cv2.imshow("image", image)
     x = Counter(hex_values).most_common(numOfColours)
+    print(x[0][0])
     max_dif = x[0][1] - x[1][1]
     for i in range(numOfColours):
         if len(x[i][0]) != 8:
@@ -98,11 +94,14 @@ def detectColour(imageName, numOfColours):
     cv2.imshow(final_colour, image)
     cv2.imshow("palette", blank_image)
     print(colourRange)
+    totalPixels = sum(colourRange.values())
+    for key in colourRange.keys():
+        print(key + ": " + str(round(colourRange[key]/totalPixels*100,0)) +"%")
 
 #---------------------------------End Main Function-----------------------------
 
 if __name__ == '__main__':
-    detectColour("images/india.jpg", 10)
+    detectColour("images/scarf4.jpg", 10)
 
 '''
     if R > G:
