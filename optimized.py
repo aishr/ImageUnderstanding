@@ -27,7 +27,6 @@ def webSafeColour(num):
     num = hex(num)[2:]
     if len(num) != 2:
         num = '0' + num
-    
     return num
 
 def detectColour(imageName):
@@ -44,8 +43,8 @@ def detectColour(imageName):
                 hexValue = RGB2Hex(image[i][j])                
                 webSafe = webSafeColour(hexValue[4:]) + webSafeColour(hexValue[2:4]) + webSafeColour(hexValue[:2])
                 colourList.append(colourData[webSafe])
-##            else:
-##                image[i][j] = [0,0,0]
+            else:
+                image[i][j] = [0,0,0]
     colFreq = Counter(colourList)
     totalPixels = sum(list(colFreq.values()))
     colFreq = Counter(colourList).most_common(len(Counter(colourList)))
