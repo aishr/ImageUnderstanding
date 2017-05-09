@@ -60,8 +60,8 @@ def detectColour(imageName):
             allColours.append([colFreq[i][0],percent])
     prevFreq = allColours[0][1]
     finalSelect.append(allColours[0][0])
-    for i in range(1,len(allColours)):
-        if prevFreq - allColours[i][1] <= 20.0 and allColours[i][1] >= 20.0:
+    for i in range(1,3):
+        if prevFreq - allColours[i][1] <= 20.0:
             finalSelect.append(allColours[i][0])
         else:
             break;
@@ -78,4 +78,4 @@ def detectColour(imageName):
     return finalSelect
     
 if __name__ == '__main__':
-    detectColour("images/book4.jpg")
+    detectColour("images/pillow3.jpg")
