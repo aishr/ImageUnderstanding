@@ -52,15 +52,16 @@ def detectColour(imageName):
     totalPixels = sum(list(colFreq.values()))
     colFreq = colFreq.most_common(len(colFreq))
     print("All Colours Detected:")
-    for colour in colFreq:
-        percent = round(colour[1]/totalPixels*100,0)
+    for i in range(len(colFreq)):
+        percent = round(colFreq[i][1]/totalPixels*100,0)
+        colFreq[i] += (percent,)
         if str(percent) != '0.0':
-            print(colour[0] + ": " + str(percent) + "%")
-            allColours.append([colour[0],percent])
+            print(colFreq[i][0] + ": " + str(percent) + "%")
+            allColours.append([colFreq[i][0],percent])
     prevFreq = allColours[0][1]
     finalSelect.append(allColours[0][0])
-    for i in range(1,3):
-        if prevFreq - allColours[i][1] <= 17.0:
+    for i in range(1,len(allColours)):
+        if prevFreq - allColours[i][1] <= 20.0 and allColours[i][1] >= 20.0:
             finalSelect.append(allColours[i][0])
         else:
             break;
@@ -73,8 +74,8 @@ def detectColour(imageName):
     imshow("image", origImage)
     imshow("edges", edges)
     imshow("background", isoImage)
-
+##    print(colFreq)
     return finalSelect
     
 if __name__ == '__main__':
-    detectColour("images/bottle6.jpg")
+    detectColour("images/book4.jpg")
