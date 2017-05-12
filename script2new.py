@@ -13,15 +13,7 @@ Edge Cases
 1) Items with other content (infuser)
 2) Items who's colour is not the bulk of the item (mirror)
 3) Metallic Gold & Copper (will detect as yellow or brown respectively)
-4)
-
-Good Examples
-1) Red and pink wine glass: 657284666103: SLANT COLLECTIONS STEMLESS WINE GLASS – SINGLE BELLS
-2) purple yellow backpack: 732396464226: Backpack - Butterfly 3-8 yrs by Crocodile Creek
-3) green rustic mug:
-4) retro phone yellow:
-5) blue digi dino:
-6) bashful dino
+4) 
 '''
 from cv2 import *
 from numpy import *
@@ -64,9 +56,9 @@ def URLToImage(url):
 
 def detectColour(imageName):
     colourData = makeDictionary()
-    isoImage = imread(imageName)
-    origImage = imread(imageName)
-    #edges = Canny(origImage, 50, 150, 3)
+    isoImage = imageName[:]
+    origImage = imageName[:]
+    edges = Canny(origImage, 50, 150, 3)
     colourList = []
     allColours = []
     finalSelect = []
@@ -78,31 +70,25 @@ def detectColour(imageName):
             if numSum <= abs(backgroundColourSum - 60):
                 hexValue = RGB2Hex(origImage[i][j])                
                 webSafe = webSafeColour(hexValue[4:]) + webSafeColour(hexValue[2:4]) + webSafeColour(hexValue[:2])
-                #print(webSafe)
                 colourList.append(colourData[webSafe])
-            else:
-                isoImage[i][j] = [0,0,0]
-            imshow("background", isoImage)
+##            else:
+##                isoImage[i][j] = [0,0,0]
     colFreq = Counter(colourList)
-    print(colFreq)
-    print('\n')
     totalPixels = sum(list(colFreq.values()))
-    print("Total Pixels Counted: " + str(totalPixels))
-    print("\n")
     colFreq = colFreq.most_common(len(colFreq))
-    print("All Colours Detected:")
+##    print("All Colours Detected:")
     for i in range(len(colFreq)):
         percent = round(colFreq[i][1]/totalPixels*100,0)
         colFreq[i] += (percent,)
         if str(percent) != '0.0':
-            print(colFreq[i][0] + ": " + str(percent) + "%")
+##            print(colFreq[i][0] + ": " + str(percent) + "%")
             allColours.append([colFreq[i][0],percent])
     if len(allColours) != 0:
         prevFreq = allColours[0][1]
         finalSelect.append([allColours[0][0],allColours[0][1]])
         for i in range(1,3):
             if i < len(allColours):
-                if prevFreq - allColours[i][1] <= 20.0: # or prevFreq - allColours[i][1] <= 20.0:
+                if allColours[i][1] >= 20.0:
                     finalSelect.append([allColours[i][0],allColours[i][1]])
                 else:
                     break;
@@ -110,15 +96,14 @@ def detectColour(imageName):
     else:
         finalSelect.append("nothing")
 
-    print("\n")
-    print('Final Set of Colours (Total Count: ' + str(len(finalSelect)) + ')')
-    for i in range(len(finalSelect)):
-        print(str(i+1) + ") " + finalSelect[i][0] + " at " + str(finalSelect[i][1]) + "%")
-    imshow("image", origImage)
+##    print("\n")
+##    print('Final Set of Colours (Total Count: ' + str(len(finalSelect)) + ')')
+##    for i in range(len(finalSelect)):
+##        print(str(i+1) + ") " + finalSelect[i])
+##    imshow("image", origImage)
 ##    imshow("edges", edges)
-    imshow("background", isoImage)
+##    imshow("background", isoImage)
 ##    print(colFreq)
-##    print(finalSelect)
     return finalSelect
 
 def storeColours(readFile, writeFile=None):
@@ -150,5 +135,4 @@ def storeColours(readFile, writeFile=None):
     
     
 if __name__ == '__main__':
-    detectColour("images/mug5.jpg")
-    #storeColours("testfile.csv","colGM.csv")
+    storeColours("testfile2newfix2.csv","coltest3GM2fix2.csv")
