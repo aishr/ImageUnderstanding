@@ -17,7 +17,7 @@ def imregionalmax(img):
                 test.append(img[i+1][j-1])
                 test.append(img[i+1][j])
                 test.append(img[i+1][j+1])
-                if img[i][j] >= max(test) and img[i][j] != 0:
+                if img[i][j] >= max(test) and img[i][j] >= 50:
                     keypoints.append((i,j))
     return keypoints
                 
