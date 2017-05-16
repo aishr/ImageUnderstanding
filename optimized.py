@@ -64,9 +64,7 @@ def URLToImage(url):
 
 def detectColour(imageName):
     colourData = makeDictionary()
-    isoImage = imread(imageName)
     origImage = imread(imageName)
-    #edges = Canny(origImage, 50, 150, 3)
     colourList = []
     allColours = []
     finalSelect = []
@@ -78,11 +76,9 @@ def detectColour(imageName):
             if numSum <= abs(backgroundColourSum - 60):
                 hexValue = RGB2Hex(origImage[i][j])                
                 webSafe = webSafeColour(hexValue[4:]) + webSafeColour(hexValue[2:4]) + webSafeColour(hexValue[:2])
-                #print(webSafe)
                 colourList.append(colourData[webSafe])
-            else:
-                isoImage[i][j] = [0,0,0]
-            imshow("background", isoImage)
+##            else:
+##                isoImage[i][j] = [0,0,0]
     colFreq = Counter(colourList)
     print(colFreq)
     print('\n')
@@ -107,7 +103,7 @@ def detectColour(imageName):
                 else:
                     break;
                 prevFreq = allColours[i][1]
-    else:
+    else: # Should Never Reach Here
         finalSelect.append("nothing")
 
     print("\n")
@@ -116,9 +112,9 @@ def detectColour(imageName):
         print(str(i+1) + ") " + finalSelect[i][0] + " at " + str(finalSelect[i][1]) + "%")
     imshow("image", origImage)
 ##    imshow("edges", edges)
-    imshow("background", isoImage)
+##    imshow("background", isoImage)
 ##    print(colFreq)
-##    print(finalSelect)
+    print(finalSelect)
     return finalSelect
 
 def storeColours(readFile, writeFile=None):
@@ -150,5 +146,5 @@ def storeColours(readFile, writeFile=None):
     
     
 if __name__ == '__main__':
-    detectColour("images/mug5.jpg")
+    detectColour("images/backpack1.jpg")
     #storeColours("testfile.csv","colGM.csv")
