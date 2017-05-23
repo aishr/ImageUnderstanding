@@ -67,7 +67,9 @@ def detectColour(imageName):
     colourList = []
     specColourList = []
     allColours = []
+    specColours = []
     finalSelect = []
+    finalSpecSelect = []
     backgroundColourSum = sum(origImage[0][0])
 
     for i in range(len(origImage)):
@@ -106,13 +108,14 @@ def detectColour(imageName):
         specColFreq[i] += (percent,)
         if str(percent) != '0.0':
             print(specColFreq[i][0] + ": " + str(percent) + "%")
-            allColours.append([specColFreq[i][0],percent])
+            specColours.append([specColFreq[i][0],percent])
+    
     if len(allColours) != 0:
         prevFreq = allColours[0][1]
         finalSelect.append([allColours[0][0],allColours[0][1]])
         for i in range(1,3):
             if i < len(allColours):
-                if prevFreq - allColours[i][1] <= 20.0: # or prevFreq - allColours[i][1] <= 20.0:
+                if allColours[i][1] >= 20.0 and prevFreq - allColours[i][1] <= 20.0:
                     finalSelect.append([allColours[i][0],allColours[i][1]])
                 else:
                     break;
@@ -120,15 +123,32 @@ def detectColour(imageName):
     else: # Should Never Reach Here
         finalSelect.append("nothing")
 
+    if len(specColours) != 0:
+        prevFreq = specColours[0][1]
+        finalSpecSelect.append([specColours[0][0],specColours[0][1]])
+        for i in range(1,3):
+            if i < len(specColours):
+                if allColours[i][1] >= 20.0 and prevFreq - specColours[i][1] <= 20.0:
+                    finalSpecSelect.append([specColours[i][0],specColours[i][1]])
+                else:
+                    break;
+                prevFreq = specColours[i][1]
+    else: # Should Never Reach Here
+        finalSpecSelect.append("nothing")
+
     print("\n")
     print('Final Set of Colours (Total Count: ' + str(len(finalSelect)) + ')')
     for i in range(len(finalSelect)):
         print(str(i+1) + ") " + finalSelect[i][0] + " at " + str(finalSelect[i][1]) + "%")
+
+    print("\n")
+    print('Final Set of Specific Colours (Total Count: ' + str(len(finalSpecSelect)) + ')')
+    for i in range(len(finalSpecSelect)):
+        print(str(i+1) + ") " + finalSpecSelect[i][0] + " at " + str(finalSpecSelect[i][1]) + "%")
     imshow("image", origImage)
 ##    imshow("edges", edges)
 ##    imshow("background", isoImage)
 ##    print(colFreq)
-    print(finalSelect)
     return finalSelect
 
 def storeColours(readFile, writeFile=None):
