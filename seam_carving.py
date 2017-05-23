@@ -22,11 +22,11 @@ def random(image):
     for i in range(1,x):
         for j in range(y):
             if j == 0:
-                DP[i][j] = min(DP[i-1][j], DP[i-1][j+1]) + img[i][j]
+                DP[i][j] = min(int(DP[i-1][j]), int(DP[i-1][j+1])) + int(img[i][j])
             elif j == y-1:
-                DP[i][j] = min(DP[i-1][j-1], DP[i-1][j]) + img[i][j]
+                DP[i][j] = min(int(DP[i-1][j-1]), int(DP[i-1][j])) + int(img[i][j])
             else:
-                DP[i][j] = min(DP[i-1][j-1], DP[i-1][j], DP[i-1][j+1]) + img[i][j]
+                DP[i][j] = min(int(DP[i-1][j-1]), int(DP[i-1][j]), int(DP[i-1][j+1])) + int(img[i][j])
 
     min1 = 100000000000000000
     index = 0
@@ -64,7 +64,7 @@ def random(image):
     cv2.imshow("test", new_img)
     return new_img
 if __name__ == '__main__':
-    image = cv2.imread("scene5.jpg")
+    image = cv2.imread("scene1.jpeg")
     cv2.imshow("original", image)
     for i in range(100):
         temp = random(image)
