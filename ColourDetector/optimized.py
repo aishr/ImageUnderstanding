@@ -149,7 +149,7 @@ def detectColour(imageName):
 ##    imshow("edges", edges)
 ##    imshow("background", isoImage)
 ##    print(colFreq)
-    return finalSelect
+    return [finalSelect, finalSpecSelect]
 
 def storeColours(readFile, writeFile=None):
     fdr = open(readFile, 'r')
@@ -168,11 +168,11 @@ def storeColours(readFile, writeFile=None):
         colours = detectColour(image)
         
         fdw.write(file[i][0]+','+file[i][1]+',"'+file[i][2]+'",')
-        for j in range(len(colours)):
-            if j != (len(colours) - 1):
-                fdw.write(colours[j][0] + "," + str(colours[j][1])+",")
+        for j in range(len(colours[0])):
+            if j != (len(colours[0]) - 1):
+                fdw.write(colours[0][j][0] + "," + str(colours[0][j][1])+",")
             else:
-                fdw.write(colours[j][0] + "," + str(colours[j][1])+"\n")
+                fdw.write(colours[0][j][0] + "," + str(colours[0][j][1])+"\n")
         print(str(i+1))
 
     fdw.close()
