@@ -79,8 +79,7 @@ def detectColour(imageName):
                 hexValue = RGB2Hex(origImage[i][j])                
                 webSafe = webSafeColour(hexValue[4:]) + webSafeColour(hexValue[2:4]) + webSafeColour(hexValue[:2])
                 colourList.append(colourData[webSafe][0])
-                specColourList.append(colourData[webSafe][1])
-                
+                specColourList.append(colourData[webSafe][1])                
 ##            else:
 ##                isoImage[i][j] = [0,0,0]
     colFreq = Counter(colourList)
