@@ -20,11 +20,15 @@ def imregionalmax(img):
                 #print("pixel: " + str(img[i][j]))
                 #print("max: " + str(max(test)))
                 if img[i][j] > max(test):
-                    keypoints.append((i,j))
-    print(len(keypoints))            
+                    keypoints.append((i,j))            
     return keypoints
-                
-                
+
+def arrayMax(lst):
+    tempMax = []
+    for line in lst:
+        tempMax.append(max(line))
+    return max(tempMax)
+
 def sift(spo,sigma):
     img = cv2.imread('ColourDetector/images/mug1.jpg')
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -32,25 +36,55 @@ def sift(spo,sigma):
     n = 1
     x = 1
     for i in range(1):
-        while len(img[0]) > 40:
+        #while len(img[0]) > 40:
             one = gs(gray, sigma)
             val = sigma * ((2**(1//spo))^1)
             two = gs(gray,val)
             result = two-one
             one = two[:]
-            cv2.imshow("result",result)
-            print(result[:5][:5])
+            final = np.zeros((len(result), len(result[0])))
 
             keypoints = imregionalmax(result)
 
+            keyp = np.zeros((len(result),len(result[0])))
+
+            maxKeyP = arrayMax(result)
             
-            #for i in range(len(keypoints)):
-            #    cv2.circle(img,keypoints[i][::-1], 5, (0,0,255))
-            #cv2.imshow("img",img)
-        
-##    for i in range(0,100,10):
-##        cv2.circle(img,(100+i,100+i), 5, (250,0,0))
+            for i in range(len(keyp)):
+                for j in range(len(keyp[0])):
+                    if (i,j) in keypoints and (result[i][j]/maxKeyP) > threshold:
+                        keyp[i][j] = result[i][j]
+                    elif (i,j) in keypoints:
+                        keypoints.remove((i,j))
+            pending = keyp[:]
+
+            for i in range(1,spo):
+                val = sigma * ((2**(1//spo))^1)
+                two = gs(gray,val)
+                result = two-one
+                one = two[:]
+
+                keypoints = imregionalmax(result)
+
+                keyp = np.zeros((len(result),len(result[0])))
+
+                maxKeyP = arrayMax(result)
+                
+                for i in range(len(keyp)):
+                    for j in range(len(keyp[0])):
+                        if (i,j) in keypoints and (result[i][j]/maxKeyP) > threshold:
+                            keyp[i][j] = result[i][j]
+                        elif (i,j) in keypoints:
+                            keypoints.remove((i,j))
+            '''
+            for i in range(len(keypoints)):
+                cv2.circle(img,keypoints[i][::-1], 5, (0,0,255))
+            '''
+            cv2.imshow("img",img)
+            cv2.imshow("points", keyp)
+            cv2.imshow("result",result)
+            
 
 
-sift(10,4)
+sift(5,4)
     
