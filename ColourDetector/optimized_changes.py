@@ -146,5 +146,5 @@ def storeColours(readFile, writeFile=None):
     
     
 if __name__ == '__main__':
-    detectColour("images/mug5.jpg")
+    detectColour("images/bottle2.jpg")
     #storeColours("testfile.csv","colGM.csv")

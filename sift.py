@@ -30,7 +30,7 @@ def arrayMax(lst):
     return max(tempMax)
 
 def sift(spo,sigma):
-    img = cv2.imread('ColourDetector/images/mug1.jpg')
+    img = cv2.imread('test.jpg')
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     finalimg = img[:]
     threshold = 0.2
@@ -39,7 +39,6 @@ def sift(spo,sigma):
     while len(img[0]) > 40:
         one = gs(gray, sigma)
         val = sigma * ((2**(1/spo))**1)
-        print("value: " + str(val))
         two = gs(gray,val)
         result = two-one
         one = two[:]
@@ -58,11 +57,9 @@ def sift(spo,sigma):
                 elif (i,j) in keypoints:
                     keypoints.remove((i,j))
         pending = keyp[:]
-        cv2.imshow("pending", pending)
-
+        
         for i in range(1,spo):
             val = sigma * ((2**(1/spo))**i)
-            print(val)
             two = gs(gray,val)
             result = two-one
             one = two[:]
@@ -83,7 +80,6 @@ def sift(spo,sigma):
             for point in keypoints:
                 if keyp[point[0]][point[1]] <= pending[point[0]][point[1]]:
                     final[point[0]][point[1]] = 1
-                    print("hi")
                 else:
                     pending[point[0]][point[1]] = keyp[point[0]][point[1]]
         for i in range(len(final)):
