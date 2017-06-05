@@ -175,9 +175,3 @@ def storeColours(readFile, writeFile=None):
         print(str(i+1))
 
     fdw.close()
-        
-    
-    
-if __name__ == '__main__':
-    detectColour("images/mug5.jpg")
-    #storeColours("testfile.csv","colGM.csv")
