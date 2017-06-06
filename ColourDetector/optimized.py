@@ -175,3 +175,4 @@ def storeColours(readFile, writeFile=None):
         print(str(i+1))
 
     fdw.close()
+    

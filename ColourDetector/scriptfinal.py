@@ -1,3 +1,3 @@
-filePath = input("Enter filepath here")
+from optimized import detectColour
+filePath = input("Enter filepath here: ")
 detectColour(filePath)
-#storeColours("testfile.csv","colGM.csv")
