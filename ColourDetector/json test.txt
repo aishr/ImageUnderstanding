@@ -1,9 +1,0 @@
-{
-	objectid:123
-	color:
-	[
-		{name:red, threshold:45},
-		{name:grey, threshold:45},
-
-	]
-}

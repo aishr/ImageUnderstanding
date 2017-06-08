@@ -1,4 +1,4 @@
-'''
+﻿'''
 Colour Detector for General Merchandising Products
 
 Algorithm
@@ -28,8 +28,8 @@ from collections import Counter
 import urllib.request
 import sys
 
-def makeDictionary():
-    fd = open("finalDictionary.csv")
+def makeDictionary(fileName):
+    fd = open(fileName)
     lst = fd.readlines()
     dic = {}
     for i in range(len(lst)):
@@ -61,8 +61,8 @@ def URLToImage(url):
     image = imdecode(image, IMREAD_COLOR)
     return image
 
-def detectColour(imageName):
-    colourData = makeDictionary()
+def detectColour(dictFile, imageName):
+    colourData = makeDictionary(dictFile)
     origImage = imread(imageName)
     colourList = []
     specColourList = []
@@ -83,30 +83,30 @@ def detectColour(imageName):
 ##            else:
 ##                isoImage[i][j] = [0,0,0]
     colFreq = Counter(colourList)
-    print(colFreq)
-    print('\n')
+##    print(colFreq)
+##    print('\n')
     specColFreq = Counter(specColourList)
-    print(specColFreq)
-    print("\n")
+##    print(specColFreq)
+##    print("\n")
     totalPixels = sum(list(colFreq.values()))
-    print("Total Pixels Counted: " + str(totalPixels))
-    print("\n")
+##    print("Total Pixels Counted: " + str(totalPixels))
+##    print("\n")
     colFreq = colFreq.most_common(len(colFreq))
     specColFreq = specColFreq.most_common(len(specColFreq))
-    print("All Colours Detected:")
+##    print("All Colours Detected:")
     for i in range(len(colFreq)):
         percent = round(colFreq[i][1]/totalPixels*100,0)
         colFreq[i] += (percent,)
         if str(percent) != '0.0':
-            print(colFreq[i][0] + ": " + str(percent) + "%")
+##            print(colFreq[i][0] + ": " + str(percent) + "%")
             allColours.append([colFreq[i][0],percent])
-    print("\n")
-    print("Specific Colours Detected:")
+##    print("\n")
+##    print("Specific Colours Detected:")
     for i in range(len(specColFreq)):
         percent = round(specColFreq[i][1]/totalPixels*100,0)
         specColFreq[i] += (percent,)
         if str(percent) != '0.0':
-            print(specColFreq[i][0] + ": " + str(percent) + "%")
+##            print(specColFreq[i][0] + ": " + str(percent) + "%")
             specColours.append([specColFreq[i][0],percent])
     
     if len(allColours) != 0:
@@ -135,16 +135,18 @@ def detectColour(imageName):
     else: # Should Never Reach Here
         finalSpecSelect.append("nothing")
 
-    print("\n")
-    print('Final Set of Colours (Total Count: ' + str(len(finalSelect)) + ')')
-    for i in range(len(finalSelect)):
-        print(str(i+1) + ") " + finalSelect[i][0] + " at " + str(finalSelect[i][1]) + "%")
+##    print("\n")
+##    print('Final Set of Colours (Total Count: ' + str(len(finalSelect)) + ')')
+    for i in range(1):
+##        print(str(i+1) + ") " + finalSelect[i][0] + " at " + str(finalSelect[i][1]) + "%\n")
+        print(finalSelect[i][0])
 
-    print("\n")
-    print('Final Set of Specific Colours (Total Count: ' + str(len(finalSpecSelect)) + ')')
-    for i in range(len(finalSpecSelect)):
-        print(str(i+1) + ") " + finalSpecSelect[i][0] + " at " + str(finalSpecSelect[i][1]) + "%")
-    imshow("image", origImage)
+
+##    print("\n")
+##    print('Final Set of Specific Colours (Total Count: ' + str(len(finalSpecSelect)) + ')')
+##    for i in range(1):
+##        print(str(i+1) + ") " + finalSpecSelect[i][0] + " at " + str(finalSpecSelect[i][1]) + "%\n")
+##    imshow("image", origImage)
 ##    imshow("edges", edges)
 ##    imshow("background", isoImage)
 ##    print(colFreq)
@@ -175,4 +177,3 @@ def storeColours(readFile, writeFile=None):
         print(str(i+1))
 
     fdw.close()
-    

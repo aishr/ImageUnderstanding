@@ -1,3 +1,8 @@
 from optimized import detectColour
-filePath = input("Enter filepath here: ")
-detectColour(filePath)
+import sys
+
+if len(sys.argv) != 3:
+    print("Usage: scriptfinal dictionaryFile imageFile\n")
+    exit(1)
+
+detectColour(sys.argv[1], sys.argv[2])
