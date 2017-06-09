@@ -94,5 +94,4 @@ def sift(spo,sigma):
             cv2.circle(img,keypoints[i][::-1], 5, (0,0,255))
         '''
     cv2.imshow("final", finalimg)
-sift(5,4)
-    
+sift(5,4) 
