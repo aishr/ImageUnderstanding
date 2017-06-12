@@ -39,7 +39,7 @@ def URLToImage(url):
 
 def detectColour(imageName, dictFile):
     colourData = makeDictionary(dictFile)
-    origImage = imread(imageName)
+    origImage = imageName
     colourList = []
     specColourList = []
     allColours = []
