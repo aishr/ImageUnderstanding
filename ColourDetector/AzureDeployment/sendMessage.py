@@ -9,9 +9,8 @@ skus = [657284666103, 732396464226, 630870129497, 5060121267558, 778988128503, 6
 
 for sku in skus:
     properties = {}
-    propName = "SKU"
+    propName = "sku"
     properties[propName] = sku
-    print(properties["SKU"])
     msg = Message(str(sku), custom_properties = properties)
     bus_service.send_topic_message('colourout', msg)
     print("message sent")

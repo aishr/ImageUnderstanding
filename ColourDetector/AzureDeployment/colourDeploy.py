@@ -13,17 +13,16 @@ def getAndSendToAzure(serviceBus:ServiceBusService, topicIn, subIn, topicOut):
     for i in range(totalMessageCount):
         msg = serviceBus.receive_subscription_message(topicIn, subIn, peek_lock = False)
         propCheck = 'sku'
-        SKUs = str(msg.custom_properties[propCheck])
-        print(SKUs)
-        imgURL = 'https://dynamic.indigoimages.ca/gifts/' + SKUs + '.jpg?maxheight=240&width=228&quality=85&sale=25&lang=en'
+        SKU = str(msg.custom_properties[propCheck])
+        imgURL = 'https://dynamic.indigoimages.ca/gifts/' + SKU + '.jpg?maxheight=240&width=228&quality=85&sale=25&lang=en'
         image = URLToImage(imgURL)
         colourList = detectColour(image, "../Dictionaries/finalDictionary.csv")
         properties = {}
-        for i in range(len(colourList)):
-            propName = "colour" + str(i+1)
-            properties[propName] = colourList[i]
+        for j in range(len(colourList)):
+            propName = "colour" + str(j+1)
+            properties[propName] = colourList[j]
 
-        newMsg = Message(SKUs, custom_properties = properties)
+        newMsg = Message(SKU, custom_properties = properties)
         serviceBus.send_topic_message(topicOut, newMsg)
 
 

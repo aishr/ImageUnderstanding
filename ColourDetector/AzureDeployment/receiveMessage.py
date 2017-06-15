@@ -7,5 +7,5 @@ bus_service = ServiceBusService(
 
 for i in range(bus_service.get_subscription('colourin', 'isClassified').message_count):
     rmsg = bus_service.receive_subscription_message('colourin', 'isClassified', peek_lock = False)
-    print(rmsg.body)
+    print(str(rmsg.body))
     print(rmsg.custom_properties["colour1"])
